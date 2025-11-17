@@ -58,6 +58,16 @@
             margin-top: 20px;
         }
 
+        /* Efeito de explosão */
+        .explode {
+            animation: boom 0.4s ease-out forwards;
+        }
+
+        @keyframes boom {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(2.5); opacity: 0; }
+        }
+
         /* Corações caindo */
         .heart {
             position: fixed;
@@ -70,7 +80,7 @@
             100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
         }
 
-        /* Ajuste para celular */
+        /* Celular */
         @media (max-width: 600px) {
             button {
                 width: 90%;
@@ -98,7 +108,7 @@
 
     <script>
 
-        let fugas = 0; // Conta quantas vezes fugiu
+        let fugas = 0;
 
         function fugir() {
             let botao = document.getElementById("nao");
@@ -106,15 +116,32 @@
             let rect = area.getBoundingClientRect();
 
             if (fugas < 6) {
-                let x = rect.left + Math.random() * (rect.width - 120);
-                let y = rect.top + Math.random() * (rect.height - 120);
+                let x = rect.left + Math.random() * (rect.width - 150);
+                let y = rect.top + Math.random() * (rect.height - 150);
 
                 botao.style.left = x + "px";
                 botao.style.top = y + "px";
 
                 fugas++;
-            } else {
-                botao.style.display = "none"; // some depois de 6
+            } 
+            else {
+                // Explosão
+                botao.classList.add("explode");
+
+                setTimeout(() => {
+                    botao.style.display = "none";
+
+                    // Criar botão SIM no lugar do NÃO
+                    let novoSim = document.createElement("button");
+                    novoSim.className = "sim";
+                    novoSim.innerText = "Sim 💖 (Eu aceito)";
+                    novoSim.style.width = "80%";
+                    novoSim.style.marginTop = "20px";
+                    novoSim.onclick = respostaSim;
+
+                    document.querySelector(".card").appendChild(novoSim);
+
+                }, 400);
             }
         }
 
@@ -122,7 +149,6 @@
             document.getElementById("resultado").innerHTML =
                 "Eu sabia que você diria sim, Sofia! 💕💍<br>Agora começa a nossa história!";
 
-            // Corações caindo
             setInterval(() => {
                 let heart = document.createElement("div");
                 heart.innerHTML = "❤";
@@ -134,7 +160,6 @@
                 setTimeout(() => heart.remove(), 5000);
             }, 150);
 
-            // Botão da música
             document.getElementById("musicButton").innerHTML = `
                 <button class="music" onclick="musica()">
                     Ouvir nossa música 💞🎶
@@ -149,4 +174,5 @@
 
 </body>
 </html>
+
 
