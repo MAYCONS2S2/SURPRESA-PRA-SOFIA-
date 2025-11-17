@@ -48,7 +48,6 @@
         .nao {
             background: #999;
             color: white;
-            position: absolute;
         }
 
         .music {
@@ -57,17 +56,6 @@
             margin-top: 20px;
         }
 
-        /* Efeito de explosão */
-        .explode {
-            animation: boom 0.4s ease-out forwards;
-        }
-
-        @keyframes boom {
-            0% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(2.5); opacity: 0; }
-        }
-
-        /* Corações caindo */
         .heart {
             position: fixed;
             color: #ff5c8a;
@@ -77,15 +65,6 @@
         @keyframes fall {
             0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
             100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
-        }
-
-        /* Celular */
-        @media (max-width: 600px) {
-            button {
-                width: 90%;
-                font-size: 22px;
-                padding: 18px;
-            }
         }
     </style>
 </head>
@@ -98,7 +77,7 @@
         <h3>Você aceitaria namorar comigo?</h3>
 
         <button class="sim" onclick="respostaSim()">Sim 💖</button>
-        <button class="nao" id="nao" onclick="fugir()">Não 😢</button>
+        <button class="nao" id="nao" onclick="contadorNao()">Não 😢</button>
 
         <p id="resultado" style="margin-top:20px; font-size:20px; color:#d6336c;"></p>
 
@@ -106,41 +85,14 @@
     </div>
 
     <script>
+        let cliquesNao = 0;
 
-        let fugas = 0;
+        function contadorNao() {
+            cliquesNao++;
 
-        function fugir() {
-            let botao = document.getElementById("nao");
-            let area = document.querySelector(".card");
-            let rect = area.getBoundingClientRect();
-
-            if (fugas < 6) {
-                let x = rect.left + Math.random() * (rect.width - 150);
-                let y = rect.top + Math.random() * (rect.height - 150);
-
-                botao.style.left = x + "px";
-                botao.style.top = y + "px";
-
-                fugas++;
-            } 
-            else {
-                // Explosão
-                botao.classList.add("explode");
-
-                setTimeout(() => {
-                    botao.style.display = "none";
-
-                    // Criar botão SIM no lugar do NÃO
-                    let novoSim = document.createElement("button");
-                    novoSim.className = "sim";
-                    novoSim.innerText = "Sim 💖 (Eu aceito)";
-                    novoSim.style.width = "80%";
-                    novoSim.style.marginTop = "20px";
-                    novoSim.onclick = respostaSim;
-
-                    document.querySelector(".card").appendChild(novoSim);
-
-                }, 400);
+            if (cliquesNao >= 7) {
+                document.getElementById("resultado").innerHTML =
+                    "Nossa, você não quer mesmo… aceita logo 🔪☠😍";
             }
         }
 
@@ -148,6 +100,7 @@
             document.getElementById("resultado").innerHTML =
                 "Eu sabia que você diria sim, Sofia! 💕💍<br>Agora começa a nossa história!";
 
+            // Corações caindo
             setInterval(() => {
                 let heart = document.createElement("div");
                 heart.innerHTML = "❤";
@@ -173,5 +126,3 @@
 
 </body>
 </html>
-
-
