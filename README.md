@@ -9,7 +9,7 @@
             background: #ffdde6;
             font-family: Arial, sans-serif;
             text-align: center;
-            overflow-x: hidden;
+            overflow: hidden;
         }
 
         .card {
@@ -52,12 +52,7 @@
             position: absolute;
         }
 
-        .music {
-            background: #ff0066;
-            color: white;
-            margin-top: 20px;
-        }
-
+        /* Corações caindo */
         .heart {
             position: fixed;
             color: #ff5c8a;
@@ -68,6 +63,7 @@
             0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
             100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
         }
+
     </style>
 </head>
 
@@ -82,32 +78,32 @@
         <button class="nao" id="nao" onclick="fugir()">Não 😢</button>
 
         <p id="resultado" style="margin-top:20px; font-size:20px; color:#d6336c;"></p>
-        <p id="extraMsg" style="margin-top:15px; font-size:18px; color:#c70039;"></p>
-
-        <div id="musicButton"></div>
     </div>
 
     <script>
+
         let fugas = 0;
 
         function fugir() {
             let botao = document.getElementById("nao");
 
-            let maxX = window.innerWidth - botao.offsetWidth - 20;
-            let maxY = window.innerHeight - botao.offsetHeight - 20;
+            // Área visível da tela
+            let largura = window.innerWidth - 150;
+            let altura = window.innerHeight - 150;
 
-            let x = Math.random() * maxX;
-            let y = Math.random() * maxY;
+            // Posição aleatória dentro da tela
+            let x = Math.random() * largura;
+            let y = Math.random() * altura;
 
             botao.style.left = x + "px";
             botao.style.top = y + "px";
 
             fugas++;
 
-            // MENSAGEM após 7 fugidas
-            if (fugas > 7) {
-                document.getElementById("extraMsg").innerHTML =
-                    "Nossa, você não quer mesmo… aceita logo 🔪☠😍";
+            // Depois de 3 fugas → mostrar mensagem
+            if (fugas >= 3) {
+                document.getElementById("resultado").innerHTML =
+                    "Nossa, você não quer mesmo, aceita logo 🔪☠😍";
             }
         }
 
@@ -115,7 +111,6 @@
             document.getElementById("resultado").innerHTML =
                 "Eu sabia que você diria sim, Sofia! 💕💍<br>Agora começa a nossa história!";
 
-            // Corações caindo
             setInterval(() => {
                 let heart = document.createElement("div");
                 heart.innerHTML = "❤";
@@ -126,17 +121,8 @@
                 document.body.appendChild(heart);
                 setTimeout(() => heart.remove(), 5000);
             }, 150);
-
-            document.getElementById("musicButton").innerHTML = `
-                <button class="music" onclick="musica()">
-                    Ouvir nossa música 💞🎶
-                </button>
-            `;
         }
 
-        function musica() {
-            window.open("https://www.youtube.com/watch?v=QDYfEBY9NM4", "_blank");
-        }
     </script>
 
 </body>
