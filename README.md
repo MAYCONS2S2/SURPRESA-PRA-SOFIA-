@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Pedido de Namoro</title>
+    <title></title>
 
     <style>
         body {
